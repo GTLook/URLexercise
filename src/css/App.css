@@ -2,3 +2,7 @@ p {
     margin-bottom: 4px;
     text-align: left;
 }
+
+p :hover {
+  color: blue;
+}

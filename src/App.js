@@ -30,29 +30,29 @@ class URLhistory{
 // to support “click a link” on the browser
 
   store_visit(url){
-    //create new entry and increment length
-    const newEntry = new newURL(url)
-    this.length++
-    //if not the first node
-    if(this.currentNode){
-      this.currentNode.forward = newEntry
-      newEntry.back = this.currentNode
-      this.head = newEntry
-      this.currentNode = newEntry
-    }
-    //if first node in list
-    if(!this.currentNode){
-      this.head = newEntry
-      this.tail = newEntry
-      this.currentNode = newEntry
-    }
-    //if max_count is at max
-    if(this.max_count === this.length){
-      this.tail = this.tail.forward
-      this.tail.back = null
-      this.length--
-    }
-    console.log('new node created',url)
+      //create new entry and increment length
+      const newEntry = new newURL(url)
+      this.length++
+      //if not the first node and has no repeat URLs
+      if(this.currentNode && this.currentNode.url !== url){
+        this.currentNode.forward = newEntry
+        newEntry.back = this.currentNode
+        this.head = newEntry
+        this.currentNode = newEntry
+      }
+      //if first node in list
+      if(!this.currentNode){
+        this.head = newEntry
+        this.tail = newEntry
+        this.currentNode = newEntry
+      }
+      //if max_count is at max
+      if(this.max_count === this.length){
+        this.tail = this.tail.forward
+        this.tail.back = null
+        this.length--
+      }
+      // console.log('new node created',url)
     return this
   }
 
@@ -63,7 +63,7 @@ class URLhistory{
       this.currentNode = this.currentNode.back
       this.length-- //this is not the true length but will keep track of current user location in the LL
     }
-    console.log('back!', this.currentNode.url)
+    // console.log('back!', this.currentNode.url)
     return this
   }
 
@@ -74,7 +74,7 @@ class URLhistory{
       this.currentNode = this.currentNode.forward
       this.length++ //this is not the true length but will keep track of current user location in the LL
     }
-    console.log('forward!', this.currentNode.url)
+    // console.log('forward!', this.currentNode.url)
     return this
   }
 
@@ -142,7 +142,7 @@ class App extends Component {
                      autoComplete: []})
   }
 
- 
+
   render() {
     return (
       <Row>
