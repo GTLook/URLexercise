@@ -63,7 +63,7 @@ class URLhistory{
       this.currentNode = this.currentNode.back
       this.length-- //this is not the true length but will keep track of current user location in the LL
     }
-    console.log('back!')
+    console.log('back!', this.currentNode.url)
     return this
   }
 
@@ -74,20 +74,22 @@ class URLhistory{
       this.currentNode = this.currentNode.forward
       this.length++ //this is not the true length but will keep track of current user location in the LL
     }
-    console.log('forward!')
+    console.log('forward!', this.currentNode.url)
     return this
   }
 
 
   // Bonus: look up matching URLs by substring
    lookup(substring){
-    let searchNode = this.head
-    const matchArray = []
-    while(searchNode.back){
-      if(searchNode.url.includes(substring)) matchArray.push(searchNode.url)
-      searchNode = searchNode.back
+     if(this.length > 1){
+       let searchNode = this.head
+       const matchArray = []
+       while(searchNode.back){
+         if(searchNode.url.includes(substring)) matchArray.push(searchNode.url)
+         searchNode = searchNode.back
+       }
+       return matchArray
     }
-    return matchArray
   }
 }
 
@@ -96,9 +98,11 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      value: '',
+      value: this.newHistory ? this.newHistory.currentNode.url : '',
       max_count: 50,
+      autoComplete: [],
     }
+
     //initates the linked list here
     this.newHistory = new URLhistory(this.state.max_count)
 
@@ -108,14 +112,30 @@ class App extends Component {
 
   handleChange(event) {
     this.setState({value: event.target.value})
+    this.handleLookup()
   }
 
   handleSubmit(event) {
     event.preventDefault()
     this.newHistory.store_visit(this.state.value)
-    console.log(this.newHistory.currentNode)
+    this.setState({value: this.newHistory.currentNode.url})
   }
 
+  handeForward(){
+    this.newHistory.store_forward_move()
+    this.setState({value: this.newHistory.currentNode.url})
+  }
+
+  handeBack(){
+    this.newHistory.store_back_move()
+    this.setState({value: this.newHistory.currentNode.url})
+  }
+
+  handleLookup(){
+    if(this.newHistory.lookup(this.state.value)){
+      this.setState({autoComplete: this.newHistory.lookup(this.state.value)})
+    }
+  }
 
   render() {
     return (
@@ -123,12 +143,12 @@ class App extends Component {
         <Col>
           <Button
             disabled={this.newHistory.currentNode ? (!this.newHistory.currentNode.back) : true}
-            onClick={() => this.newHistory.store_back_move()}
+            onClick={() => this.handeBack()}
             waves='light'><Icon left>arrow_back</Icon>
           </Button>
           <Button
             disabled={this.newHistory.currentNode ? (!this.newHistory.currentNode.forward) : true}
-            onClick={() => this.newHistory.store_forward_move()}
+            onClick={() => this.handeForward()}
             waves='light'><Icon left>arrow_forward</Icon>
           </Button>
         </Col>
@@ -138,6 +158,12 @@ class App extends Component {
               <label>
                 <input type="text" value={this.state.value} onChange={this.handleChange} />
               </label>
+              {console.log(this.state.autoComplete)}
+              {
+                !(this.state.autoComplete.length > 0) ? (null) : this.state.autoComplete.map(url => {
+                  <p>{url}</p>
+                })
+              }
             </Col>
             <Col>
               <Button waves='light'>Submit</Button>
