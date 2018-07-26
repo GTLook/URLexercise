@@ -137,6 +137,12 @@ class App extends Component {
     }
   }
 
+  handleAutocompleClick(url){
+      this.setState({value: url,
+                     autoComplete: []})
+  }
+
+ 
   render() {
     return (
       <Row>
@@ -158,10 +164,9 @@ class App extends Component {
               <label>
                 <input type="text" value={this.state.value} onChange={this.handleChange} />
               </label>
-              {console.log(this.state.autoComplete)}
               {
-                !(this.state.autoComplete.length > 0) ? (null) : this.state.autoComplete.map(url => {
-                  <p>{url}</p>
+                !(this.state.autoComplete.length > 1) ? (null) : this.state.autoComplete.map(url => {
+                  return <p onClick={() => this.handleAutocompleClick(url)} >{url}</p>
                 })
               }
             </Col>

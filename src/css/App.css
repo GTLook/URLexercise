@@ -1,7 +1,4 @@
-.collection .collection-item {
-    background-color: #fff;
-    line-height: 1.0rem;
-    padding: 5px;
-    margin: 0;
-    border-bottom: 1px solid #e0e0e0;
+p {
+    margin-bottom: 4px;
+    text-align: left;
 }
