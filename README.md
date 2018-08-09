@@ -35,7 +35,7 @@ Start the react development server:
 ## Deployment
 
 This project has been deployed on Heroku at the address:
-*
+* https://url-challenge.herokuapp.com/
 
 ## Built With
 
