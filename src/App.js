@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Row, Button, Icon } from 'react-materialize'
-// import {URLhistory, newURL } from './amperityExcercise'
 
 import './css/App.css';
 
-// Note: Can do this in python, Clojure, JS or any other language too!
-// You may also decide to create class or object to wrap this - your call!
+//creates the node
 
 class newURL{
   constructor(url, back=null, forward=null){
@@ -15,9 +13,9 @@ class newURL{
   }
 }
 
-// creates the history object - use a class, record, or other structure if you want!
+// creates the history object
 // stores at most `max-count` URLs in the history
-
+// keeps track of the Head, Tail, current node the user looks at, the viewed length, and takes the max_count variable.
 class URLhistory{
   constructor(max_count){
     this.head = null;
@@ -52,7 +50,6 @@ class URLhistory{
         this.tail.back = null
         this.length--
       }
-      // console.log('new node created',url)
     return this
   }
 
@@ -63,7 +60,6 @@ class URLhistory{
       this.currentNode = this.currentNode.back
       this.length-- //this is not the true length but will keep track of current user location in the LL
     }
-    // console.log('back!', this.currentNode.url)
     return this
   }
 
@@ -74,12 +70,11 @@ class URLhistory{
       this.currentNode = this.currentNode.forward
       this.length++ //this is not the true length but will keep track of current user location in the LL
     }
-    // console.log('forward!', this.currentNode.url)
     return this
   }
 
 
-  // Bonus: look up matching URLs by substring
+  //Look up matching URLs by substring
    lookup(substring){
      if(this.length > 1){
        let searchNode = this.head
@@ -99,7 +94,7 @@ class App extends Component {
     super(props)
     this.state = {
       value: this.newHistory ? this.newHistory.currentNode.url : '',
-      max_count: 50,
+      max_count: 50,  //max count is the max length of the history liked list
       autoComplete: [],
     }
 
@@ -138,11 +133,10 @@ class App extends Component {
   }
 
   handleAutocompleClick(url){
-      this.setState({value: url,
-                     autoComplete: []})
+      this.setState({value: url, autoComplete: []})
   }
 
-
+//render react app
   render() {
     return (
       <Row>
